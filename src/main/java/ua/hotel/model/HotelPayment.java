@@ -9,21 +9,16 @@ public record HotelPayment(
         LocalDate paymentDate
 ) {
     public HotelPayment {
-        if (paymentId == null || paymentId.trim().isEmpty()) {
+        if (paymentId == null || paymentId.isBlank())
             throw new IllegalArgumentException("Payment ID must not be empty");
-        }
-        if (booking == null) {
+        if (booking == null)
             throw new IllegalArgumentException("Booking must not be null");
-        }
-        if (!Double.isFinite(amount) || amount <= 0) {
+        if (!Double.isFinite(amount) || amount <= 0)
             throw new IllegalArgumentException("Payment amount must be positive");
-        }
-        if (paymentDate == null) {
+        if (paymentDate == null)
             throw new IllegalArgumentException("Payment date must not be null");
-        }
-        if (paymentDate.isBefore(booking.checkInDate())) {
-            throw new IllegalArgumentException("Payment date must not be before check-in date");
-        }
+        if (paymentDate.isBefore(booking.checkInDate()))
+            throw new IllegalArgumentException("Payment date must not be before check-in");
 
         paymentId = paymentId.trim();
     }
