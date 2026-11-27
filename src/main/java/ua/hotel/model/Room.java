@@ -20,4 +20,8 @@ public record Room(int roomNumber, RoomType type, double pricePerNight) {
             );
         }
     }
+
+    public double getPricePerNight() {
+        return pricePerNight;
+    }
 }
