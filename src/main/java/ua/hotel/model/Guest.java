@@ -1,8 +1,8 @@
 
+
 package ua.hotel.model;
 
 import ua.common.BaseEntity;
-
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.Objects;
@@ -14,37 +14,35 @@ public class Guest extends BaseEntity {
     private final String lastName;
     private final LocalDate birthDate;
 
-    public Guest(String passportNumber, String firstName,
-                 String lastName, LocalDate birthDate) {
+    private Guest(String passportNumber, String firstName,
+                  String lastName, LocalDate birthDate) {
         super();
 
-        if (passportNumber == null || passportNumber.isBlank()) {
-            throw new IllegalArgumentException(
-                    "Passport number must not be empty. Actual: " + passportNumber);
+        if (passportNumber == null || passportNumber.trim().isEmpty()) {
+            throw new IllegalArgumentException("Passport number cannot be empty");
         }
-        if (firstName == null || firstName.isBlank()) {
-            throw new IllegalArgumentException(
-                    "First name must not be empty. Actual: " + firstName);
+        if (firstName == null || firstName.trim().isEmpty()) {
+            throw new IllegalArgumentException("First name cannot be empty");
         }
-        if (lastName == null || lastName.isBlank()) {
-            throw new IllegalArgumentException(
-                    "Last name must not be empty. Actual: " + lastName);
+        if (lastName == null || lastName.trim().isEmpty()) {
+            throw new IllegalArgumentException("Last name cannot be empty");
         }
         if (birthDate == null) {
-            throw new IllegalArgumentException(
-                    "Birth date must not be null. Actual: " + birthDate);
+            throw new IllegalArgumentException("Birth date cannot be null");
         }
-
-        int age = Period.between(birthDate, LocalDate.now()).getYears();
-        if (age < 18) {
-            throw new IllegalArgumentException(
-                    "Guest must be at least 18 years old. Expected: >= 18, actual: " + age);
+        if (Period.between(birthDate, LocalDate.now()).getYears() < 18) {
+            throw new IllegalArgumentException("Guest must be at least 18 years old");
         }
 
         this.passportNumber = passportNumber.trim();
         this.firstName = firstName.trim();
         this.lastName = lastName.trim();
         this.birthDate = birthDate;
+    }
+
+    public static Guest of(String passportNumber, String firstName,
+                           String lastName, LocalDate birthDate) {
+        return new Guest(passportNumber, firstName, lastName, birthDate);
     }
 
     public String getPassportNumber() {
@@ -66,7 +64,7 @@ public class Guest extends BaseEntity {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Guest)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         Guest guest = (Guest) o;
         return Objects.equals(passportNumber, guest.passportNumber);
     }
@@ -75,15 +73,15 @@ public class Guest extends BaseEntity {
     public int hashCode() {
         return Objects.hash(passportNumber);
     }
-    
-@Override
-public String toString() {
-    return "Guest{" +
-            "passportNumber='" + passportNumber + '\'' +
-            ", firstName='" + firstName + '\'' +
-            ", lastName='" + lastName + '\'' +
-            ", birthDate=" + birthDate +
-            ", createdAt=" + createdAt +
-            '}';
-}
+
+    @Override
+    public String toString() {
+        return "Guest{" +
+                "passportNumber='" + passportNumber + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", birthDate=" + birthDate +
+                ", createdAt=" + createdAt +
+                '}';
+    }
 }
