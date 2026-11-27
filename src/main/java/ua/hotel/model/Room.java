@@ -2,7 +2,6 @@
 package ua.hotel.model;
 
 import ua.common.BaseEntity;
-
 import java.util.Objects;
 
 public class Room extends BaseEntity {
@@ -11,17 +10,14 @@ public class Room extends BaseEntity {
     private final String roomType;
     private double pricePerNight;
 
-    public Room(int roomNumber, String roomType, double pricePerNight) {
+    private Room(int roomNumber, String roomType, double pricePerNight) {
         super();
 
         if (roomNumber <= 0) {
-            throw new IllegalArgumentException(
-                    "Room number must be > 0. Actual: " + roomNumber);
+            throw new IllegalArgumentException("Room number must be positive");
         }
-
-        if (roomType == null || roomType.isBlank()) {
-            throw new IllegalArgumentException(
-                    "Room type must be SINGLE, DOUBLE, SUITE or DELUXE. Actual: " + roomType);
+        if (roomType == null || roomType.trim().isEmpty()) {
+            throw new IllegalArgumentException("Room type cannot be empty");
         }
 
         String normalizedType = roomType.trim().toUpperCase();
@@ -30,18 +26,22 @@ public class Room extends BaseEntity {
                 && !normalizedType.equals("SUITE")
                 && !normalizedType.equals("DELUXE")) {
             throw new IllegalArgumentException(
-                    "Room type must be one of [SINGLE, DOUBLE, SUITE, DELUXE]. Actual: "
-                            + roomType);
+                    "Invalid room type: " + roomType);
         }
 
         if (pricePerNight <= 0 || !Double.isFinite(pricePerNight)) {
             throw new IllegalArgumentException(
-                    "Price per night must be > 0. Actual: " + pricePerNight);
+                    "Price per night must be positive");
         }
 
         this.roomNumber = roomNumber;
         this.roomType = normalizedType;
         this.pricePerNight = pricePerNight;
+    }
+
+    public static Room of(int roomNumber, String roomType,
+                          double pricePerNight) {
+        return new Room(roomNumber, roomType, pricePerNight);
     }
 
     public int getRoomNumber() {
@@ -59,7 +59,7 @@ public class Room extends BaseEntity {
     public final void setPricePerNight(double pricePerNight) {
         if (pricePerNight <= 0 || !Double.isFinite(pricePerNight)) {
             throw new IllegalArgumentException(
-                    "Price per night must be > 0. Actual: " + pricePerNight);
+                    "Price per night must be positive");
         }
         this.pricePerNight = pricePerNight;
     }
@@ -67,7 +67,7 @@ public class Room extends BaseEntity {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Room)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         Room room = (Room) o;
         return roomNumber == room.roomNumber;
     }
@@ -78,12 +78,15 @@ public class Room extends BaseEntity {
     }
 
     @Override
-public String toString() {
-    return "Room{" +
-            "roomNumber=" + roomNumber +
-            ", roomType='" + roomType + '\'' +
-            ", pricePerNight=" + pricePerNight +
-            ", createdAt=" + createdAt +
-            '}';
+    public String toString() {
+        return "Room{" +
+                "roomNumber=" + roomNumber +
+                ", roomType='" + roomType + '\'' +
+                ", pricePerNight=" + pricePerNight +
+                ", createdAt=" + createdAt +
+                '}';
+    }
 }
-}
+
+
+  
