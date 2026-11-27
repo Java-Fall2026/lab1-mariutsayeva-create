@@ -75,14 +75,15 @@ public class Guest extends BaseEntity {
     public int hashCode() {
         return Objects.hash(passportNumber);
     }
-
-    @Override
-    public String toString() {
-        return "Guest{" +
-                "passportNumber='" + passportNumber + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", birthDate=" + birthDate +
-                '}';
-    }
+    
+@Override
+public String toString() {
+    return "Guest{" +
+            "passportNumber='" + passportNumber + '\'' +
+            ", firstName='" + firstName + '\'' +
+            ", lastName='" + lastName + '\'' +
+            ", birthDate=" + birthDate +
+            ", createdAt=" + createdAt +
+            '}';
+}
 }
