@@ -78,11 +78,12 @@ public class Room extends BaseEntity {
     }
 
     @Override
-    public String toString() {
-        return "Room{" +
-                "roomNumber=" + roomNumber +
-                ", roomType='" + roomType + '\'' +
-                ", pricePerNight=" + pricePerNight +
-                '}';
-    }
+public String toString() {
+    return "Room{" +
+            "roomNumber=" + roomNumber +
+            ", roomType='" + roomType + '\'' +
+            ", pricePerNight=" + pricePerNight +
+            ", createdAt=" + createdAt +
+            '}';
+}
 }
