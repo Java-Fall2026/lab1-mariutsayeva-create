@@ -74,13 +74,14 @@ public class HotelPayment extends BaseEntity {
         return Objects.hash(paymentId);
     }
 
-    @Override
-    public String toString() {
-        return "HotelPayment{" +
-                "paymentId='" + paymentId + '\'' +
-                ", booking=" + booking +
-                ", amount=" + amount +
-                ", paymentDate=" + paymentDate +
-                '}';
-    }
+   @Override
+public String toString() {
+    return "HotelPayment{" +
+            "paymentId='" + paymentId + '\'' +
+            ", booking=" + booking +
+            ", amount=" + amount +
+            ", paymentDate=" + paymentDate +
+            ", createdAt=" + createdAt +
+            '}';
+}
 }
