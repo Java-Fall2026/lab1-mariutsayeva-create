@@ -1,8 +1,8 @@
 
+
 package ua.hotel.model;
 
 import ua.common.BaseEntity;
-
 import java.time.LocalDate;
 import java.util.Objects;
 
@@ -17,26 +17,21 @@ public class HotelPayment extends BaseEntity {
                         double amount, LocalDate paymentDate) {
         super();
 
-        if (paymentId == null || paymentId.isBlank()) {
-            throw new IllegalArgumentException(
-                    "Payment ID must not be empty. Actual: " + paymentId);
+        if (paymentId == null || paymentId.trim().isEmpty()) {
+            throw new IllegalArgumentException("Payment ID cannot be empty");
         }
         if (booking == null) {
-            throw new IllegalArgumentException(
-                    "Booking must not be null. Actual: null");
+            throw new IllegalArgumentException("Booking cannot be null");
         }
         if (amount <= 0 || !Double.isFinite(amount)) {
-            throw new IllegalArgumentException(
-                    "Amount must be > 0. Actual: " + amount);
+            throw new IllegalArgumentException("Amount must be positive");
         }
         if (paymentDate == null) {
-            throw new IllegalArgumentException(
-                    "Payment date must not be null. Actual: null");
+            throw new IllegalArgumentException("Payment date cannot be null");
         }
         if (paymentDate.isBefore(booking.getCheckInDate())) {
             throw new IllegalArgumentException(
-                    "Payment date must not be before check-in date. Expected: >= "
-                            + booking.getCheckInDate() + ", actual: " + paymentDate);
+                    "Payment date cannot be before check-in date");
         }
 
         this.paymentId = paymentId.trim();
@@ -64,7 +59,7 @@ public class HotelPayment extends BaseEntity {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof HotelPayment)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         HotelPayment that = (HotelPayment) o;
         return Objects.equals(paymentId, that.paymentId);
     }
@@ -74,14 +69,14 @@ public class HotelPayment extends BaseEntity {
         return Objects.hash(paymentId);
     }
 
-   @Override
-public String toString() {
-    return "HotelPayment{" +
-            "paymentId='" + paymentId + '\'' +
-            ", booking=" + booking +
-            ", amount=" + amount +
-            ", paymentDate=" + paymentDate +
-            ", createdAt=" + createdAt +
-            '}';
-}
+    @Override
+    public String toString() {
+        return "HotelPayment{" +
+                "paymentId='" + paymentId + '\'' +
+                ", booking=" + booking +
+                ", amount=" + amount +
+                ", paymentDate=" + paymentDate +
+                ", createdAt=" + createdAt +
+                '}';
+    }
 }
