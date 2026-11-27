@@ -1,4 +1,5 @@
 
+
 package ua.hotel;
 
 import ua.hotel.model.Booking;
@@ -16,17 +17,15 @@ public class Main {
         System.out.println("=== HOTEL BOOKING SYSTEM ===");
 
         try {
-            // Creating objects using factory methods
             Guest guest = Guest.of(
                     " AB123456 ",
-                    "ANNA",
-                    "MARIUS",
+                    "Anna",
+                    "Marius",
                     LocalDate.of(1998, 5, 15)
             );
 
             Room room = Room.of(101, "double", 1200.0);
 
-            // Creating objects using public constructors
             Booking booking = new Booking(
                     room,
                     guest,
@@ -42,55 +41,36 @@ public class Main {
                     LocalDate.of(2026, 12, 10)
             );
 
-            System.out.println("\n--- OBJECTS ---");
+            System.out.println("\n--- SUCCESSFUL SCENARIO ---");
             System.out.println(guest);
             System.out.println(room);
             System.out.println(booking);
             System.out.println(payment);
 
-            System.out.println("\n--- CALCULATIONS ---");
             System.out.println("Nights: " + HotelUtils.nights(booking));
-            System.out.println("Total price: "
-                    + HotelUtils.totalPrice(booking));
+            System.out.println("Total price: " + HotelUtils.totalPrice(booking));
 
-            System.out.println("\n--- SETTER ---");
-            room.setPricePerNight(1500.0);
-            System.out.println("Updated room price: "
-                    + room.getPricePerNight());
-
-            System.out.println("\n--- EQUALS ---");
-            Guest sameGuest = Guest.of(
-                    "AB123456",
-                    "Anna",
-                    "Marius",
-                    LocalDate.of(1998, 5, 15)
-            );
-            System.out.println("Guests are equal: "
-                    + guest.equals(sameGuest));
-
-        } catch (Exception e) {
+        } catch (IllegalArgumentException | NullPointerException e) {
             System.out.println("Error: " + e.getMessage());
         }
 
-        System.out.println("\n--- VALIDATION ERRORS ---");
+        System.out.println("\n--- ERROR SCENARIOS ---");
 
         try {
             Room.of(-1, "SINGLE", 100.0);
         } catch (IllegalArgumentException e) {
-            System.out.println("Error 1: " + e.getMessage());
+            System.out.println("Room validation: " + e.getMessage());
         }
 
         try {
-            Guest.of("P123", "John", "Smith",
-                    LocalDate.of(2015, 1, 1));
+            Guest.of(
+                    "P123",
+                    "John",
+                    "Smith",
+                    LocalDate.of(2015, 1, 1)
+            );
         } catch (IllegalArgumentException e) {
-            System.out.println("Error 2: " + e.getMessage());
-        }
-
-        try {
-            Room.of(102, "INVALID", 100.0);
-        } catch (IllegalArgumentException e) {
-            System.out.println("Error 3: " + e.getMessage());
+            System.out.println("Guest validation: " + e.getMessage());
         }
     }
 }
