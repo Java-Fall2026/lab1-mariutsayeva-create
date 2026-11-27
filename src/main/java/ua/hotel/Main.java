@@ -1,11 +1,12 @@
 
-
 package ua.hotel;
 
 import ua.hotel.model.Booking;
+import ua.hotel.model.BookingStatus;
 import ua.hotel.model.Guest;
 import ua.hotel.model.HotelPayment;
 import ua.hotel.model.Room;
+import ua.hotel.model.RoomType;
 import ua.hotel.util.HotelUtils;
 
 import java.time.LocalDate;
@@ -17,21 +18,22 @@ public class Main {
         System.out.println("=== HOTEL BOOKING SYSTEM ===");
 
         try {
-            Guest guest = Guest.of(
-                    " AB123456 ",
+            Guest guest = new Guest(
+                    "AB123456",
                     "Anna",
                     "Marius",
                     LocalDate.of(1998, 5, 15)
             );
 
-            Room room = Room.of(101, "double", 1200.0);
+            Room room = new Room(101, RoomType.DOUBLE, 1200.0);
 
             Booking booking = new Booking(
-                    room,
+                    "BOOK-1001",
                     guest,
+                    room,
                     LocalDate.of(2026, 12, 10),
                     LocalDate.of(2026, 12, 15),
-                    "confirmed"
+                    BookingStatus.CONFIRMED
             );
 
             HotelPayment payment = new HotelPayment(
@@ -50,6 +52,11 @@ public class Main {
             System.out.println("Nights: " + HotelUtils.nights(booking));
             System.out.println("Total price: " + HotelUtils.totalPrice(booking));
 
+            System.out.println("Room description: " + describeRoomType(room.type()));
+            System.out.println("Booking message: " + describeBookingStatus(booking.status()));
+
+            System.out.println("Room price factor: " + room.type().getPriceFactor());
+
         } catch (IllegalArgumentException | NullPointerException e) {
             System.out.println("Error: " + e.getMessage());
         }
@@ -57,13 +64,13 @@ public class Main {
         System.out.println("\n--- ERROR SCENARIOS ---");
 
         try {
-            Room.of(-1, "SINGLE", 100.0);
+            new Room(-1, RoomType.SINGLE, 100.0);
         } catch (IllegalArgumentException e) {
             System.out.println("Room validation: " + e.getMessage());
         }
 
         try {
-            Guest.of(
+            new Guest(
                     "P123",
                     "John",
                     "Smith",
@@ -72,5 +79,23 @@ public class Main {
         } catch (IllegalArgumentException e) {
             System.out.println("Guest validation: " + e.getMessage());
         }
+    }
+
+    public static String describeRoomType(RoomType type) {
+        return switch (type) {
+            case SINGLE -> "Single room";
+            case DOUBLE -> "Double room";
+            case SUITE -> "Suite";
+            case DELUXE -> "Deluxe room";
+        };
+    }
+
+    public static String describeBookingStatus(BookingStatus status) {
+        return switch (status) {
+            case CONFIRMED -> "Booking is confirmed";
+            case CHECKED_IN -> "Guest has checked in";
+            case CHECKED_OUT -> "Guest has checked out";
+            case CANCELLED -> "Booking is cancelled";
+        };
     }
 }
