@@ -109,13 +109,14 @@ public class Booking extends BaseEntity {
     }
 
     @Override
-    public String toString() {
-        return "Booking{" +
-                "room=" + room +
-                ", guest=" + guest +
-                ", checkInDate=" + checkInDate +
-                ", checkOutDate=" + checkOutDate +
-                ", status='" + status + '\'' +
-                '}';
-    }
+public String toString() {
+    return "Booking{" +
+            "room=" + room +
+            ", guest=" + guest +
+            ", checkInDate=" + checkInDate +
+            ", checkOutDate=" + checkOutDate +
+            ", status='" + status + '\'' +
+            ", createdAt=" + createdAt +
+            '}';
+}
 }
