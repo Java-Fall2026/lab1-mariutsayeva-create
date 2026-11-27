@@ -1,12 +1,6 @@
-
 package ua.hotel;
 
-import ua.hotel.model.Booking;
-import ua.hotel.model.BookingStatus;
-import ua.hotel.model.Guest;
-import ua.hotel.model.HotelPayment;
-import ua.hotel.model.Room;
-import ua.hotel.model.RoomType;
+import ua.hotel.model.*;
 import ua.hotel.util.HotelUtils;
 
 import java.time.LocalDate;
@@ -43,7 +37,6 @@ public class Main {
                     LocalDate.of(2026, 12, 10)
             );
 
-            System.out.println("\n--- SUCCESSFUL SCENARIO ---");
             System.out.println(guest);
             System.out.println(room);
             System.out.println(booking);
@@ -51,11 +44,9 @@ public class Main {
 
             System.out.println("Nights: " + HotelUtils.nights(booking));
             System.out.println("Total price: " + HotelUtils.totalPrice(booking));
-
             System.out.println("Room description: " + describeRoomType(room.type()));
             System.out.println("Booking message: " + describeBookingStatus(booking.status()));
-
-            System.out.println("Room price factor: " + room.type().getPriceFactor());
+            System.out.println("Price factor: " + room.type().getPriceFactor());
 
         } catch (IllegalArgumentException | NullPointerException e) {
             System.out.println("Error: " + e.getMessage());
@@ -70,12 +61,8 @@ public class Main {
         }
 
         try {
-            new Guest(
-                    "P123",
-                    "John",
-                    "Smith",
-                    LocalDate.of(2015, 1, 1)
-            );
+            new Guest("P123", "John", "Smith",
+                    LocalDate.of(2015, 1, 1));
         } catch (IllegalArgumentException e) {
             System.out.println("Guest validation: " + e.getMessage());
         }
