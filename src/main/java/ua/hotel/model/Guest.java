@@ -1,4 +1,3 @@
-
 package ua.hotel.model;
 
 import java.time.LocalDate;
@@ -11,21 +10,17 @@ public record Guest(
         LocalDate birthDate
 ) {
     public Guest {
-        if (passportNumber == null || passportNumber.trim().isEmpty()) {
+        if (passportNumber == null || passportNumber.isBlank())
             throw new IllegalArgumentException("Passport number must not be empty");
-        }
-        if (firstName == null || firstName.trim().isEmpty()) {
+        if (firstName == null || firstName.isBlank())
             throw new IllegalArgumentException("First name must not be empty");
-        }
-        if (lastName == null || lastName.trim().isEmpty()) {
+        if (lastName == null || lastName.isBlank())
             throw new IllegalArgumentException("Last name must not be empty");
-        }
-        if (birthDate == null) {
+        if (birthDate == null)
             throw new IllegalArgumentException("Birth date must not be null");
-        }
-        if (Period.between(birthDate, LocalDate.now()).getYears() < 18) {
+        if (birthDate.isAfter(LocalDate.now()) ||
+                Period.between(birthDate, LocalDate.now()).getYears() < 18)
             throw new IllegalArgumentException("Guest must be at least 18 years old");
-        }
 
         passportNumber = passportNumber.trim();
         firstName = firstName.trim();
